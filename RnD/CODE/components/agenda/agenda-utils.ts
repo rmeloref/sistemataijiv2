@@ -97,3 +97,33 @@ export const STATUS_DOT: Record<string, string> = {
   confirmado:  'bg-primary',
   cancelado:   'bg-muted-foreground',
 }
+
+// ── overlap layout ────────────────────────────────────────────────────────────
+
+export type ApptLayout = { col: number; cols: number }
+
+export function layoutAppointments(appts: { id: string; starts_at: string; ends_at: string }[]): Map<string, ApptLayout> {
+  const result = new Map<string, ApptLayout>()
+  if (!appts.length) return result
+
+  const sorted = [...appts].sort(
+    (a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime()
+  )
+
+  const colEnds: number[] = []
+  const cols: number[] = []
+
+  for (const appt of sorted) {
+    const start = new Date(appt.starts_at).getTime()
+    const end   = new Date(appt.ends_at).getTime()
+    let col = colEnds.findIndex(e => e <= start)
+    if (col === -1) { col = colEnds.length; colEnds.push(end) }
+    else colEnds[col] = end
+    cols.push(col)
+  }
+
+  const totalCols = colEnds.length
+  sorted.forEach((appt, i) => result.set(appt.id, { col: cols[i], cols: totalCols }))
+
+  return result
+}

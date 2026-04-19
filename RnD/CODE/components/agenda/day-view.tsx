@@ -1,6 +1,6 @@
 'use client'
 
-import { isSameDay, formatTime, STATUS_COLOR } from './agenda-utils'
+import { isSameDay, formatTime, STATUS_COLOR, layoutAppointments } from './agenda-utils'
 import type { Appointment } from '@/lib/supabase/appointments'
 
 const HOUR_HEIGHT = 64
@@ -25,6 +25,7 @@ function eventHeight(startsAt: Date, endsAt: Date): number {
 
 export function DayView({ currentDate, appointments, onSlotClick, onAppointmentClick }: Props) {
   const dayAppts = appointments.filter((a) => isSameDay(new Date(a.starts_at), currentDate))
+  const layout   = layoutAppointments(dayAppts)
 
   return (
     <div className="rounded-lg border border-border overflow-hidden">
@@ -65,12 +66,16 @@ export function DayView({ currentDate, appointments, onSlotClick, onAppointmentC
               const end    = new Date(a.ends_at)
               const top    = eventTop(start)
               const height = eventHeight(start, end)
+              const { col, cols } = layout.get(a.id)!
+              const pct    = 100 / cols
+              const left   = `calc(${col * pct}% + 4px)`
+              const width  = `calc(${pct}% - 8px)`
 
               return (
                 <button
                   key={a.id}
                   onClick={(e) => { e.stopPropagation(); onAppointmentClick(a) }}
-                  style={{ top, height, left: 4, right: 4 }}
+                  style={{ top, height, left, width }}
                   className={`absolute rounded px-3 py-1.5 text-left text-sm border overflow-hidden z-10 ${STATUS_COLOR[a.status]}`}
                 >
                   <p className="font-medium truncate">{a.patient?.full_name ?? 'Sem paciente'}</p>

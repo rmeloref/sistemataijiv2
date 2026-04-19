@@ -1,6 +1,6 @@
 'use client'
 
-import { addDays, startOfWeek, isSameDay, isToday, formatTime, STATUS_COLOR } from './agenda-utils'
+import { addDays, startOfWeek, isSameDay, isToday, formatTime, STATUS_COLOR, layoutAppointments } from './agenda-utils'
 import type { Appointment } from '@/lib/supabase/appointments'
 
 const HOUR_HEIGHT = 64  // px per hour
@@ -67,6 +67,7 @@ export function WeekView({ currentDate, appointments, onSlotClick, onAppointment
           {/* Day columns */}
           {days.map((day, colIdx) => {
             const dayAppts = appointments.filter((a) => isSameDay(new Date(a.starts_at), day))
+            const layout   = layoutAppointments(dayAppts)
 
             return (
               <div
@@ -94,12 +95,16 @@ export function WeekView({ currentDate, appointments, onSlotClick, onAppointment
                   const end   = new Date(a.ends_at)
                   const top    = eventTop(start)
                   const height = eventHeight(start, end)
+                  const { col, cols } = layout.get(a.id)!
+                  const pct   = 100 / cols
+                  const left  = `calc(${col * pct}% + 2px)`
+                  const width = `calc(${pct}% - 4px)`
 
                   return (
                     <button
                       key={a.id}
                       onClick={(e) => { e.stopPropagation(); onAppointmentClick(a) }}
-                      style={{ top, height, left: 2, right: 2 }}
+                      style={{ top, height, left, width }}
                       className={`absolute rounded px-1.5 py-1 text-left text-xs border overflow-hidden z-10 ${STATUS_COLOR[a.status]}`}
                     >
                       <p className="font-medium truncate leading-tight">
