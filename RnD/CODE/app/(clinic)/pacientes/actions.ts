@@ -26,7 +26,7 @@ export async function createPatientAction(formData: FormData) {
 
   const parsed = schema.safeParse(raw)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const cpf = parsed.data.cpf || undefined
@@ -63,7 +63,7 @@ export async function updatePatientAction(id: string, formData: FormData) {
 
   const parsed = schema.safeParse(raw)
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message }
+    return { error: parsed.error.issues[0].message }
   }
 
   const cpf = parsed.data.cpf || undefined
