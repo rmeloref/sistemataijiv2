@@ -15,6 +15,7 @@ export type Appointment = {
   recurrence_until: string | null
   payment_amount: number | null
   paid: boolean
+  notes: string | null
   created_at: string
   updated_at: string
 }
