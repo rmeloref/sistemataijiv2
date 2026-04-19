@@ -247,7 +247,7 @@ export function AnamneseTab({ patientId, isFeminino, anamnese }: Props) {
                   <div key={label}>
                     <dt className="text-xs text-muted-foreground mb-0.5">{label}</dt>
                     <dd className="font-medium text-foreground">
-                      {value ? (map as Record<string, string>)[value] : <span className="text-muted-foreground font-normal">—</span>}
+                      {value ? (map as unknown as Record<string, string>)[value] : <span className="text-muted-foreground font-normal">—</span>}
                     </dd>
                   </div>
                 ))}
