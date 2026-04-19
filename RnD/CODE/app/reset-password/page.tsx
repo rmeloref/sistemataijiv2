@@ -54,7 +54,6 @@ export default function ResetPasswordPage() {
       return
     }
 
-    // Sign out all other sessions and redirect to dashboard
     await supabase.auth.signOut({ scope: 'others' })
     router.push('/dashboard')
     router.refresh()
@@ -101,6 +100,11 @@ export default function ResetPasswordPage() {
                 {errors.password && (
                   <p className="text-xs text-destructive">{errors.password.message}</p>
                 )}
+                <ul className="text-xs text-muted-foreground space-y-0.5 list-disc list-inside pt-1">
+                  <li>Mínimo de 8 caracteres</li>
+                  <li>Pelo menos uma letra maiúscula</li>
+                  <li>Pelo menos um número</li>
+                </ul>
               </div>
 
               <div className="space-y-1.5">
@@ -117,12 +121,6 @@ export default function ResetPasswordPage() {
                   <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>
                 )}
               </div>
-
-              <ul className="text-xs text-muted-foreground space-y-0.5 list-disc list-inside">
-                <li>Mínimo de 8 caracteres</li>
-                <li>Pelo menos uma letra maiúscula</li>
-                <li>Pelo menos um número</li>
-              </ul>
 
               {serverError && (
                 <div
