@@ -89,7 +89,7 @@ export const STATUS_LABEL: Record<string, string> = {
 export const STATUS_COLOR: Record<string, string> = {
   a_confirmar: 'bg-warning/20 text-warning-foreground border-warning/40',
   confirmado:  'bg-primary/15 text-primary border-primary/30',
-  cancelado:   'bg-muted text-muted-foreground border-border line-through',
+  cancelado:   'bg-destructive/10 text-destructive border-destructive/30 line-through',
 }
 
 export const STATUS_DOT: Record<string, string> = {
