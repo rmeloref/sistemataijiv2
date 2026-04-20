@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, Users, Calendar, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, Calendar, TrendingUp, LogOut } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { ProfileWithCustomer } from '@/lib/supabase/profile'
 
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard',  icon: LayoutDashboard },
   { href: '/pacientes', label: 'Pacientes',  icon: Users },
   { href: '/agenda',    label: 'Agenda',     icon: Calendar },
+  { href: '/financeiro', label: 'Financeiro', icon: TrendingUp },
 ]
 
 export function AppSidebar({ profile }: { profile: ProfileWithCustomer | null }) {
